@@ -4,11 +4,24 @@
 package quotes;
 
 import org.junit.jupiter.api.Test;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
-    @Test void appHasAGreeting() {
+
         App classUnderTest = new App();
-        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
-    }
+        @Test void testJsonFileObject(){
+                ArrayList<BookQuotes> quotes= new ArrayList<>();
+                try {
+                        FileReader fileReader = new FileReader("recentquotes.json");
+                        quotes = App.dataJsonR(fileReader);
+                } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                }
+                assertEquals("Charles Dickens",quotes.get(1).getAuthor());
+        }
 }

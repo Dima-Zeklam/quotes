@@ -3,12 +3,38 @@
  */
 package quotes;
 
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        try {
+            FileReader fileReader = new FileReader("src/test/resources/recentquotes.json");
+
+            ArrayList<BookQuotes> readFromArrayJson = dataJsonR(fileReader);
+            int randomNum = (int) (Math.random() * (readFromArrayJson.size()));
+            System.out.println(readFromArrayJson.get(randomNum).toString());
+        } catch (FileNotFoundException error) {
+            error.printStackTrace();
+        }
+    }
+
+    public static ArrayList<BookQuotes> dataJsonR(FileReader fileReader) {
+        Gson gson = new Gson();
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        ArrayList<BookQuotes> readFromArrayJson = gson.fromJson(bufferedReader,new TypeToken<ArrayList<BookQuotes>>(){}.getType());
+        try {
+            bufferedReader.close();
+        } catch (IOException error) {
+            error.printStackTrace();
+        }
+        return readFromArrayJson;
     }
 }
