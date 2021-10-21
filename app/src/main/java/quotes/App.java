@@ -16,7 +16,7 @@ public class App {
 
     public static void main(String[] args) {
         try {
-            FileReader fileReader = new FileReader("src/test/resources/recentquotes.json");
+            FileReader fileReader = new FileReader("recentquotes.json");
 
             ArrayList<BookQuotes> readFromArrayJson = dataJsonR(fileReader);
             int randomNum = (int) (Math.random() * (readFromArrayJson.size()));
