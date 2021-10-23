@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -35,5 +38,21 @@ class AppTest {
 
 
                 assertEquals(expected,quotes.get(randomBookQuotes).toString());
+        }
+        @Test void TestConnection() throws IOException {
+                String ApiUrl = " http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en";
+                URL url= new URL(ApiUrl);
+
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                assertEquals(200,connection.getResponseCode());
+        }
+        @Test void QuoteHttpConstructor(){
+                QuoteHttp quotes = new QuoteHttp("By accepting yourself and being fully what you are," +
+                        " your presence can make others happy.","Jane Roberts",
+                        "http://forismatic.com/en/d42f03c3d3/");
+                String expected= "QuoteHttp{quoteText='By accepting yourself and being fully what you are, " +
+                        "your presence can make others happy.'," +
+                        " quoteAuthor='Jane Roberts', quoteLink='http://forismatic.com/en/d42f03c3d3/'}";
+                assertEquals(expected,quotes.toString());
         }
 }
